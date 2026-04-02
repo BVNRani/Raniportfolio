@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c \"for /f \"\"tokens=5\"\" %a in \\(''netstat -aon ^| findstr :5173''\\) do taskkill /F /PID %a\")",
+      "Bash(cmd /c \"netstat -ano | findstr :5173\")",
+      "Bash(npm run:*)"
+    ]
+  }
+}
