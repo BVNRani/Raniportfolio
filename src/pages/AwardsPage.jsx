@@ -7,9 +7,9 @@ import toast from 'react-hot-toast';
 
 const EMPTY = { title: '', body: '', year: new Date().getFullYear(), description: '', category: 'Research Excellence', photoUrl: '' };
 
-const CATEGORIES = ['Research Excellence', 'Research', 'Teaching', 'Service', 'Professional', 'Academic', 'Sports'];
+const CATEGORIES = ['Research Excellence', 'Research', 'Teaching', 'Service', 'Professional', 'Academic', 'Sports', 'Hackathon'];
 
-const ICONS = { 'Research Excellence': '🏆', 'Research': '🔬', 'Teaching': '🎓', 'Service': '🤝', 'Professional': '💼', 'Academic': '📚', 'Sports': '🏅' };
+const ICONS = { 'Research Excellence': '🏆', 'Research': '🔬', 'Teaching': '🎓', 'Service': '🤝', 'Professional': '💼', 'Academic': '📚', 'Sports': '🏅', 'Hackathon': '💡' };
 
 export default function AwardsPage() {
   const [items, setItems] = useState([]);

@@ -4,15 +4,19 @@ import { getProfile, getCollection } from '../firebase/services';
 import { Mail, Phone, MapPin, ExternalLink, Link2, GraduationCap, ChevronRight, Settings } from 'lucide-react';
 
 const NAV_SECTIONS = [
-  { id: 'about',       label: 'About' },
-  { id: 'research',    label: 'Research' },
-  { id: 'patents',     label: 'Patents' },
-  { id: 'awards',      label: 'Awards' },
-  { id: 'projects',    label: 'Projects' },
-  { id: 'experience',  label: 'Experience' },
-  { id: 'education',   label: 'Education' },
-  { id: 'teaching',    label: 'Teaching' },
-  { id: 'contact',     label: 'Contact' },
+  { id: 'about',          label: 'About' },
+  { id: 'research',       label: 'Research' },
+  { id: 'patents',        label: 'Patents' },
+  { id: 'awards',         label: 'Awards' },
+  { id: 'projects',       label: 'Projects' },
+  { id: 'experience',     label: 'Experience' },
+  { id: 'education',      label: 'Education' },
+  { id: 'teaching',       label: 'Teaching' },
+  { id: 'collaborations', label: 'Collaborations' },
+  { id: 'funded',         label: 'Funded Projects' },
+  { id: 'sessionchair',   label: 'Session Chair' },
+  { id: 'hackathons',     label: 'Hackathons' },
+  { id: 'contact',        label: 'Contact' },
 ];
 
 const TYPE_COLORS = {
@@ -31,8 +35,10 @@ export default function PublicPortfolio({ onAdminLogin }) {
   const [projects,     setProjects]     = useState([]);
   const [experience,   setExperience]   = useState([]);
   const [education,    setEducation]    = useState([]);
-  const [teaching,     setTeaching]     = useState([]);
-  const [loading,      setLoading]      = useState(true);
+  const [teaching,        setTeaching]        = useState([]);
+  const [collaborations,  setCollaborations]  = useState([]);
+  const [sessionChairs,   setSessionChairs]   = useState([]);
+  const [loading,         setLoading]         = useState(true);
   const [activeSection, setActiveSection] = useState('about');
   const [pubFilter,    setPubFilter]    = useState('All');
   const [navSticky,    setNavSticky]    = useState(false);
@@ -48,7 +54,9 @@ export default function PublicPortfolio({ onAdminLogin }) {
       getCollection('experience'),
       getCollection('education'),
       getCollection('teaching'),
-    ]).then(([p, pubs, pats, aws, projs, exp, edu, teach]) => {
+      getCollection('collaborations'),
+      getCollection('sessionChairs'),
+    ]).then(([p, pubs, pats, aws, projs, exp, edu, teach, collabs, chairs]) => {
       setProfile(p);
       setPublications(pubs);
       setPatents(pats);
@@ -57,6 +65,8 @@ export default function PublicPortfolio({ onAdminLogin }) {
       setExperience(exp);
       setEducation(edu);
       setTeaching(teach);
+      setCollaborations(collabs);
+      setSessionChairs(chairs);
       setLoading(false);
     }).catch(() => setLoading(false));
   }, []);
@@ -400,6 +410,156 @@ export default function PublicPortfolio({ onAdminLogin }) {
                     {t.year     && <span style={{ fontSize:11, color:'#A09890', fontWeight:600 }}>{t.year}</span>}
                   </div>
                   {t.description && <div style={{ fontSize:12.5, color:'#7A7570', lineHeight:1.6 }}>{t.description}</div>}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── COLLABORATIONS ────────────────────────────────── */}
+        {collaborations.length > 0 && (
+          <section id="collaborations" style={{ paddingTop: 56 }}>
+            <SectionHeading>Collaborations</SectionHeading>
+
+            {/* Industry Partners */}
+            {collaborations.filter(c => c.type === 'industry').length > 0 && (
+              <div style={{ marginBottom: 36 }}>
+                <div style={{ fontSize:12, fontWeight:700, color:'#A09890', letterSpacing:1.2, marginBottom:14 }}>INDUSTRY PARTNERS</div>
+                <div className="cards-grid">
+                  {collaborations.filter(c => c.type === 'industry').map(col => (
+                    <div key={col.id} style={{ background:'white', borderRadius:14, padding:'18px 20px', boxShadow:'0 2px 8px rgba(10,31,68,0.06)', borderLeft:'4px solid #0A1F44', position:'relative', overflow:'hidden' }}>
+                      <div style={{ position:'absolute', top:0, right:0, width:4, height:4, borderRadius:'50%', background:'#D4AF37', margin:10 }} />
+                      <div style={{ fontWeight:700, fontSize:15, color:'#0A1F44', marginBottom:4 }}>{col.name}</div>
+                      {col.role && <span style={{ fontSize:11, fontWeight:700, background:'#EBF0FB', color:'#2563eb', borderRadius:6, padding:'2px 8px', marginBottom:8, display:'inline-block' }}>{col.role}</span>}
+                      {col.description && <div style={{ fontSize:12.5, color:'#6A6560', lineHeight:1.6, marginTop:6 }}>{col.description}</div>}
+                      {col.url && (
+                        <a href={col.url.startsWith('http') ? col.url : `https://${col.url}`} target="_blank" rel="noopener noreferrer"
+                          style={{ display:'inline-flex', alignItems:'center', gap:4, marginTop:10, fontSize:12, color:'#2563eb', fontWeight:700, textDecoration:'none' }}>
+                          <ExternalLink size={11} /> Visit Website
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Research Coordination */}
+            {collaborations.filter(c => c.type === 'coordinator').length > 0 && (
+              <div style={{ marginBottom: 36 }}>
+                <div style={{ fontSize:12, fontWeight:700, color:'#A09890', letterSpacing:1.2, marginBottom:14 }}>RESEARCH COORDINATION</div>
+                <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+                  {collaborations.filter(c => c.type === 'coordinator').map(col => (
+                    <div key={col.id} style={{ background:'white', borderRadius:14, padding:'16px 22px', boxShadow:'0 2px 8px rgba(10,31,68,0.06)', display:'flex', gap:16, alignItems:'flex-start' }}>
+                      <div style={{ width:48, height:48, borderRadius:'50%', background:'linear-gradient(135deg,#0A1F44,#1E3A7A)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>
+                        👤
+                      </div>
+                      <div style={{ flex:1 }}>
+                        <div style={{ fontWeight:700, fontSize:15, color:'#0A1F44', marginBottom:4 }}>{col.name}</div>
+                        {col.role && <span style={{ fontSize:11, fontWeight:700, background:'#EDFAF3', color:'#2E7D52', border:'1px solid #2E7D5244', borderRadius:6, padding:'2px 10px' }}>{col.role}</span>}
+                        {col.description && <div style={{ fontSize:13, color:'#6A6560', lineHeight:1.6, marginTop:6 }}>{col.description}</div>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Research Institutions */}
+            {collaborations.filter(c => c.type === 'research').length > 0 && (
+              <div>
+                <div style={{ fontSize:12, fontWeight:700, color:'#A09890', letterSpacing:1.2, marginBottom:14 }}>RESEARCH INSTITUTIONS</div>
+                <div className="cards-grid">
+                  {collaborations.filter(c => c.type === 'research').map(col => (
+                    <div key={col.id} style={{ background:'white', borderRadius:14, padding:'18px 20px', boxShadow:'0 2px 8px rgba(10,31,68,0.06)', borderTop:'3px solid #B48C3C' }}>
+                      <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:8 }}>
+                        <div style={{ width:36, height:36, borderRadius:9, background:'linear-gradient(135deg,#0A1F44,#1E3A7A)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, flexShrink:0 }}>🏛️</div>
+                        <div style={{ fontWeight:700, fontSize:14, color:'#0A1F44', lineHeight:1.3 }}>{col.name}</div>
+                      </div>
+                      {col.role && <span style={{ fontSize:11, fontWeight:700, background:'#FFF8E7', color:'#B48C3C', border:'1px solid #B48C3C44', borderRadius:6, padding:'2px 8px', marginBottom:6, display:'inline-block' }}>{col.role}</span>}
+                      {col.description && <div style={{ fontSize:12.5, color:'#6A6560', lineHeight:1.6, marginTop:6 }}>{col.description}</div>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ── FUNDED PROJECTS ───────────────────────────────── */}
+        {projects.filter(p => p.funded).length > 0 && (
+          <section id="funded" style={{ paddingTop: 56 }}>
+            <SectionHeading>Funded Projects <span style={{ fontWeight:400, fontSize:16, color:'#A09890' }}>({projects.filter(p => p.funded).length})</span></SectionHeading>
+            <div className="cards-grid">
+              {projects.filter(p => p.funded).map(p => {
+                const sc = { 'In Progress':'#B48C3C', 'Submitted':'#2563eb', 'Completed':'#2E7D52', 'Proposal Stage':'#7c3aed' };
+                const c = sc[p.status] || '#0A1F44';
+                return (
+                  <div key={p.id} style={{ background:'white', borderRadius:14, padding:20, boxShadow:'0 2px 8px rgba(10,31,68,0.06)', borderTop:`3px solid ${c}`, position:'relative' }}>
+                    <div style={{ position:'absolute', top:14, right:14 }}>
+                      <span style={{ fontSize:11, fontWeight:700, background:'#EDFAF3', color:'#2E7D52', border:'1px solid #2E7D5244', borderRadius:6, padding:'2px 8px' }}>✅ Funded</span>
+                    </div>
+                    <div style={{ display:'flex', gap:8, marginBottom:10, flexWrap:'wrap', paddingRight:64 }}>
+                      <span style={{ background:c+'18', color:c, border:`1px solid ${c}44`, borderRadius:8, padding:'2px 10px', fontSize:11, fontWeight:700 }}>{p.status}</span>
+                      {p.area && <span className="badge badge-navy">{p.area}</span>}
+                    </div>
+                    <div style={{ fontWeight:700, fontSize:14, color:'#0A1F44', lineHeight:1.4, marginBottom:8 }}>{p.title}</div>
+                    {p.funding && <div style={{ fontSize:12.5, color:'#2E7D52', fontWeight:700, marginBottom:4 }}>💰 {p.funding}{p.amount ? ` — ₹${p.amount} Lakhs` : ''}</div>}
+                    {p.description && <div style={{ fontSize:12.5, color:'#6A6560', lineHeight:1.6 }}>{p.description}</div>}
+                    {p.collaborators && <div style={{ fontSize:12, color:'#A09890', marginTop:8 }}>👥 {p.collaborators}</div>}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* ── SESSION CHAIR ─────────────────────────────────── */}
+        {sessionChairs.length > 0 && (
+          <section id="sessionchair" style={{ paddingTop: 56 }}>
+            <SectionHeading>Conference Session Chair <span style={{ fontWeight:400, fontSize:16, color:'#A09890' }}>({sessionChairs.length})</span></SectionHeading>
+            <div className="cards-grid">
+              {sessionChairs.map(item => (
+                <div key={item.id} style={{ background:'white', borderRadius:14, padding:20, boxShadow:'0 2px 8px rgba(10,31,68,0.06)', borderLeft:'4px solid #0A1F44' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:10 }}>
+                    <div style={{ width:44, height:44, borderRadius:11, background:'linear-gradient(135deg,#0A1F44,#1E3A7A)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, flexShrink:0 }}>🎤</div>
+                    <div style={{ flex:1 }}>
+                      <div style={{ fontWeight:700, fontSize:14, color:'#0A1F44', lineHeight:1.35, marginBottom:4 }}>{item.conference}</div>
+                      <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                        {item.year     && <span className="badge badge-navy">{item.year}</span>}
+                        {item.location && <span className="badge badge-gold">{item.location}</span>}
+                      </div>
+                    </div>
+                  </div>
+                  {item.topic && <div style={{ fontSize:13, fontWeight:700, color:'#B48C3C', marginBottom:6 }}>📌 {item.topic}</div>}
+                  {item.description && <div style={{ fontSize:12.5, color:'#6A6560', lineHeight:1.6 }}>{item.description}</div>}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── HACKATHONS ────────────────────────────────────── */}
+        {awards.filter(a => a.category === 'Hackathon').length > 0 && (
+          <section id="hackathons" style={{ paddingTop: 56 }}>
+            <SectionHeading>Hackathons & Innovation <span style={{ fontWeight:400, fontSize:16, color:'#A09890' }}>({awards.filter(a => a.category === 'Hackathon').length})</span></SectionHeading>
+            <div className="cards-grid">
+              {awards.filter(a => a.category === 'Hackathon').map(a => (
+                <div key={a.id} style={{ background:'linear-gradient(135deg,#FFF8E7,#FFFDF5)', borderRadius:14, padding:20, boxShadow:'0 2px 8px rgba(180,140,60,0.12)', border:'1.5px solid #D4AF3733' }}>
+                  <div style={{ display:'flex', gap:14, alignItems:'flex-start' }}>
+                    <div style={{ width:52, height:52, borderRadius:12, background:'linear-gradient(135deg,#B48C3C,#F0C040)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:26, flexShrink:0, boxShadow:'0 4px 12px rgba(180,140,60,0.3)' }}>
+                      🏅
+                    </div>
+                    <div style={{ flex:1 }}>
+                      <div style={{ fontWeight:700, fontSize:14, color:'#0A1F44', lineHeight:1.35, marginBottom:4 }}>{a.title}</div>
+                      <div style={{ fontSize:12, color:'#B48C3C', fontWeight:700, marginBottom:6 }}>{a.body}</div>
+                      <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                        <span className="badge badge-navy">{a.year}</span>
+                        <span style={{ fontSize:11, fontWeight:700, background:'#FFF8E7', color:'#B48C3C', border:'1px solid #B48C3C44', borderRadius:6, padding:'2px 8px' }}>Hackathon</span>
+                      </div>
+                      {a.description && <div style={{ fontSize:12.5, color:'#6A6560', lineHeight:1.6, marginTop:8 }}>{a.description}</div>}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

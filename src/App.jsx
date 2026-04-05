@@ -15,6 +15,8 @@ import EducationPage from './pages/EducationPage';
 import GalleryPage from './pages/GalleryPage';
 import InsightsPage from './pages/InsightsPage';
 import TeachingPage from './pages/TeachingPage';
+import CollaborationsPage from './pages/CollaborationsPage';
+import SessionChairPage from './pages/SessionChairPage';
 import LoginPage from './pages/LoginPage';
 import PublicPortfolio from './pages/PublicPortfolio';
 import { seedInitialData } from './firebase/services';
@@ -29,8 +31,10 @@ const PAGES = {
   experience:   ExperiencePage,
   education:    EducationPage,
   gallery:      GalleryPage,
-  insights:     InsightsPage,
-  teaching:     TeachingPage,
+  insights:        InsightsPage,
+  teaching:        TeachingPage,
+  collaborations:  CollaborationsPage,
+  sessionChair:    SessionChairPage,
 };
 
 const PAGE_TITLES = {

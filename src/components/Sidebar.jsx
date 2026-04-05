@@ -2,7 +2,7 @@
 import {
   LayoutDashboard, User, BookOpen, Shield, Trophy,
   FlaskConical, Briefcase, Image, LogOut, GraduationCap,
-  BarChart2, BookMarked
+  BarChart2, BookMarked, Users, Mic2
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
@@ -17,8 +17,10 @@ const nav = [
   { key: 'publications', label: 'Publications',       icon: BookOpen,        section: 'Academic' },
   { key: 'patents',      label: 'Patents',            icon: Shield,          section: 'Academic' },
   { key: 'awards',       label: 'Awards',             icon: Trophy,          section: 'Academic' },
-  { key: 'projects',     label: 'Research Projects',  icon: FlaskConical,    section: 'Academic' },
-  { key: 'gallery',      label: 'Photo Gallery',      icon: Image,           section: 'Media' },
+  { key: 'projects',        label: 'Research Projects',      icon: FlaskConical, section: 'Academic' },
+  { key: 'collaborations',  label: 'Collaborations',         icon: Users,       section: 'Academic' },
+  { key: 'sessionChair',    label: 'Session Chair',          icon: Mic2,        section: 'Academic' },
+  { key: 'gallery',         label: 'Photo Gallery',          icon: Image,       section: 'Media' },
 ];
 
 const sections = ['Main', 'Academic', 'Media'];

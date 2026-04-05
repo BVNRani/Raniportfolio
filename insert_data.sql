@@ -12,6 +12,8 @@ DELETE FROM experience;
 DELETE FROM education;
 DELETE FROM gallery;
 DELETE FROM teaching;
+DELETE FROM collaborations;
+DELETE FROM "sessionChairs";
 DELETE FROM profile;
 
 -- ── PROFILE ──────────────────────────────────────────────────
@@ -152,3 +154,37 @@ INSERT INTO teaching (course, code, level, semester, year, description, "created
 ('Data Visualization', 'IT4001', 'UG', 'Odd', '2023-24', 'Techniques and tools for visualizing large datasets using Matplotlib, Seaborn, Plotly, and Tableau. Focus on storytelling with data.', now(), now()),
 ('Operating Systems', 'CS3002', 'UG', 'Even', '2022-23', 'Core OS concepts: process management, scheduling algorithms, memory management, file systems, and deadlock handling.', now(), now()),
 ('Software Project Management', 'IT7001', 'PG', 'Odd', '2024-25', 'Covers agile/scrum methodologies, project planning, risk management, cost estimation, quality assurance, and team leadership for software projects.', now(), now());
+
+-- ── COLLABORATIONS ────────────────────────────────────────────
+INSERT INTO collaborations (name, type, role, description, url, "createdAt", "updatedAt") VALUES
+('CodeSizzler', 'industry', 'Industry Partner', 'Collaborated on AI and cloud-based software development and student internship projects.', 'https://codesizzler.in', now(), now()),
+('BLUMIN', 'industry', 'Industry Partner', 'Industry-academia bridge partnership for technology education and innovation programs.', 'https://www.bluminiic.com', now(), now()),
+('Trizen', 'industry', 'Industry Partner', 'Joint initiatives in technology ventures and industry-academia collaboration programs.', 'https://trizenventures.com', now(), now()),
+('Squaredots Solutions', 'industry', 'Industry Partner', 'Collaborated on web development and software solution projects with student teams.', 'https://squaredotssolutions.com', now(), now()),
+('Yubhian Technologies LLP', 'industry', 'Industry Partner', 'Partnership in AI, Blockchain, and custom software development with student skill-building programs.', 'https://www.yubhiantechnologies.in', now(), now()),
+('Gauthami Electromech Technologies', 'industry', 'Industry Partner', 'Industry collaboration for hardware-software integration and interdisciplinary student projects.', '', now(), now()),
+('Hari Anna', 'coordinator', 'Research Coordinator', 'Actively coordinates research activities, lab operations, and collaborative academic initiatives.', '', now(), now()),
+('Raja Rajeswari', 'coordinator', 'Research Coordinator', 'Supports research coordination across interdisciplinary project teams and documentation.', '', now(), now()),
+('SRM University', 'research', 'Research Collaboration', 'Long-standing academic collaboration in AI, Blockchain, and Cybersecurity research areas.', '', now(), now()),
+('Easwari Engineering College', 'research', 'Research Collaboration', 'Collaborative research in operating systems, distributed computing, and AI applications.', '', now(), now()),
+('Vel Tech University', 'research', 'Research Collaboration', 'Joint publication and research supervision across advanced computing domains.', '', now(), now()),
+('Sri Krishna Engineering College', 'research', 'Research Collaboration', 'Foundational research collaborations in networking, IoT, and machine learning.', '', now(), now()),
+('RRASE College of Engineering', 'research', 'Research Collaboration', 'Collaborative academic and quality assurance research initiatives.', '', now(), now());
+
+-- ── SESSION CHAIRS ────────────────────────────────────────────
+INSERT INTO "sessionChairs" (conference, year, location, topic, description, "createdAt", "updatedAt") VALUES
+('EAI IC4S – Cognitive Computing and Cyber Physical Systems', 2023, 'Online/Hybrid', 'AI and Cybersecurity in Cyber-Physical Systems', 'Served as Session Chair for technical paper presentations at the 5th EAI International Conference on Cognitive Computing and Cyber Physical Systems (IC4S 2023).', now(), now()),
+('IEEE AGEC – Advanced & Global Engineering Challenges', 2023, 'India', 'Blockchain and Cloud Security', 'Chaired a technical session on emerging challenges in Blockchain and Cloud Security at the IEEE-sponsored AGEC 2023 conference.', now(), now());
+
+-- ── HACKATHON AWARDS ──────────────────────────────────────────
+INSERT INTO awards (title, body, year, description, category, "photoUrl", "createdAt", "updatedAt") VALUES
+('Smart India Hackathon – Internal Round Winner', 'Vishnu Institute of Technology – SIH Internal Hackathon', 2024, 'Mentored and guided the winning student team in the Smart India Hackathon internal selection round, securing a spot for the national-level competition.', 'Hackathon', '', now(), now()),
+('Smart India Hackathon – National Level Winner', 'Government of India – Smart India Hackathon (SIH)', 2024, 'Mentored student team that achieved top placement at the national level Smart India Hackathon, demonstrating excellence in innovation and problem-solving for real-world challenges.', 'Hackathon', '', now(), now());
+
+-- ── MARK FUNDED PROJECTS ─────────────────────────────────────
+UPDATE projects SET funded = true WHERE title LIKE '%Sustainable Rural%';
+UPDATE projects SET funded = true WHERE title LIKE '%Internet of Bodies%';
+UPDATE projects SET funded = true WHERE title LIKE '%Maternal Health%';
+UPDATE projects SET funded = true WHERE title LIKE '%Atmospheric Motion%';
+UPDATE projects SET funded = true WHERE title LIKE '%India-Singapore%';
+UPDATE projects SET funded = true WHERE title LIKE '%Cyber-Physical Systems%';

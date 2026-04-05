@@ -5,7 +5,7 @@ import CrudModal from '../components/CrudModal';
 import { Plus, Pencil, Trash2, FlaskConical } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const EMPTY = { title: '', area: '', status: 'In Progress', description: '', funding: '', collaborators: '', amount: '' };
+const EMPTY = { title: '', area: '', status: 'In Progress', description: '', funding: '', collaborators: '', amount: '', funded: false };
 
 const STATUS_COLORS = { 'In Progress': '#B48C3C', 'Submitted': '#2563eb', 'Completed': '#2E7D52', 'Proposal Stage': '#7c3aed' };
 
@@ -61,6 +61,7 @@ export default function ProjectsPage() {
               <span className="badge" style={{ background: STATUS_COLORS[proj.status] + '22', color: STATUS_COLORS[proj.status], border: `1px solid ${STATUS_COLORS[proj.status]}55` }}>{proj.status}</span>
               {proj.area && <span className="badge badge-navy">{proj.area}</span>}
             </div>
+            {proj.funded && <span style={{ fontSize:11, fontWeight:700, background:'#EDFAF3', color:'#2E7D52', border:'1px solid #2E7D5244', borderRadius:6, padding:'2px 8px', marginBottom:6, display:'inline-block' }}>✅ Funded</span>}
             {proj.funding && <div style={{ fontSize: 13, fontWeight: 700, color: '#2E7D52', marginBottom: 4 }}>💰 {proj.funding}</div>}
             {proj.amount && <div style={{ fontSize: 12, color: '#6A6560', marginBottom: 8 }}>₹{proj.amount} Lakhs</div>}
             {proj.description && <div className="item-card-desc">{proj.description}</div>}
@@ -82,6 +83,10 @@ export default function ProjectsPage() {
           <div className="form-row">
             <div className="form-group"><label className="form-label">Funding / Grant</label><input className="form-input" value={form.funding} onChange={e => setForm({ ...form, funding: e.target.value })} placeholder="e.g. DST India (INR 1 Crore)" /></div>
             <div className="form-group"><label className="form-label">Funding Amount (INR Lakhs)</label><input className="form-input" type="number" value={form.amount || ''} onChange={e => setForm({ ...form, amount: e.target.value })} placeholder="e.g. 28" /></div>
+          </div>
+          <div className="form-group" style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <input type="checkbox" id="funded-check" checked={!!form.funded} onChange={e => setForm({ ...form, funded: e.target.checked })} style={{ width:16, height:16, cursor:'pointer' }} />
+            <label htmlFor="funded-check" className="form-label" style={{ margin:0, cursor:'pointer' }}>Mark as Funded Project</label>
           </div>
           <div className="form-group"><label className="form-label">Description</label><textarea className="form-textarea" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} /></div>
           <div className="form-group"><label className="form-label">Collaborators</label><input className="form-input" value={form.collaborators} onChange={e => setForm({ ...form, collaborators: e.target.value })} placeholder="Collaborating institutions / persons" /></div>
