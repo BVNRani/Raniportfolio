@@ -160,7 +160,7 @@ export default function Dashboard() {
         </div>
         <div className="stat-card">
           <GraduationCap size={18} style={{ color: '#2E7D52', margin: '0 auto 8px' }} />
-          <div className="stat-number">{profile?.phdScholars || '4'}</div>
+          <div className="stat-number">{profile?.phdScholars || '8'}</div>
           <div className="stat-label">PhD Scholars</div>
         </div>
       </div>
